@@ -1,5 +1,6 @@
 package kabriggs.cofc.edu.mapapp;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -7,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -25,6 +28,7 @@ public class LocationActivity extends AppCompatActivity implements GoogleApiClie
 
     private TextView mLatitudeText = null;
     private TextView mLongitudeText = null;
+    private Button mapButton = null;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -34,6 +38,8 @@ public class LocationActivity extends AppCompatActivity implements GoogleApiClie
 
         mLatitudeText = (TextView) findViewById(R.id.latitude);
         mLongitudeText = (TextView) findViewById(R.id.longitude);
+        mapButton = (Button) findViewById(R.id.mapButtonId);
+
 
         // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
@@ -72,6 +78,11 @@ public class LocationActivity extends AppCompatActivity implements GoogleApiClie
 
         }
 
+        Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("Location", mLastLocation);
+        //startActivity(intent);
+
+
     }
 
     @Override
@@ -90,4 +101,11 @@ public class LocationActivity extends AppCompatActivity implements GoogleApiClie
         mLocationRequest.setFastestInterval(5000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
+
+    public void launchMap(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("Location", mLastLocation);
+        startActivity(intent);
+    }
+
 }
